@@ -1,0 +1,13 @@
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\bin\Release\ToolCheckNewVersion.exe.config
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\bin\Release\ToolCheckNewVersion.exe
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\bin\Release\ToolCheckNewVersion.pdb
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\bin\Release\WebDriver.dll
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\bin\Release\WebDriver.xml
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.csprojAssemblyReference.cache
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.MainForm.resources
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.Properties.Resources.resources
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.csproj.GenerateResource.cache
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.csproj.CoreCompileInputs.cache
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.csproj.CopyComplete
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.exe
+E:\Code\C# code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Release\ToolCheckNewVersion.pdb
