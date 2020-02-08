@@ -24,3 +24,19 @@ E:\Code\Csharp code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Debug\ToolCheckN
 E:\Code\Csharp code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.csproj.CopyComplete
 E:\Code\Csharp code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.exe
 E:\Code\Csharp code\ToolCheckNewVersion\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.pdb
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\ToolCheckNewVersion.exe.config
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\ToolCheckNewVersion.exe
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\ToolCheckNewVersion.pdb
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\HtmlAgilityPack.dll
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\WebDriver.dll
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\HtmlAgilityPack.pdb
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\HtmlAgilityPack.xml
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\bin\Debug\WebDriver.xml
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.csprojAssemblyReference.cache
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.MainForm.resources
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.Properties.Resources.resources
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.csproj.GenerateResource.cache
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.csproj.CoreCompileInputs.cache
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.csproj.CopyComplete
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.exe
+E:\Code\GitHub\ToolCheck\ToolCheckNewVersion\obj\Debug\ToolCheckNewVersion.pdb

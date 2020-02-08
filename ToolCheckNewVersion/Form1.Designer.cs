@@ -68,6 +68,7 @@
             this.tipListLink = new System.Windows.Forms.ToolTip(this.components);
             this.tipModel = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipQuetBia = new System.Windows.Forms.ToolTip(this.components);
+            this.cbFixBia = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -348,7 +349,7 @@
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.44555F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.55445F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.Controls.Add(this.btnQuet, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.btnQuetUpdate, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.txtID2, 0, 1);
@@ -369,7 +370,7 @@
             // btnQuet
             // 
             this.btnQuet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnQuet.Location = new System.Drawing.Point(115, 32);
+            this.btnQuet.Location = new System.Drawing.Point(114, 32);
             this.btnQuet.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnQuet.Name = "btnQuet";
             this.btnQuet.Size = new System.Drawing.Size(86, 21);
@@ -381,7 +382,7 @@
             // btnQuetUpdate
             // 
             this.btnQuetUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnQuetUpdate.Location = new System.Drawing.Point(115, 3);
+            this.btnQuetUpdate.Location = new System.Drawing.Point(114, 3);
             this.btnQuetUpdate.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnQuetUpdate.Name = "btnQuetUpdate";
             this.btnQuetUpdate.Size = new System.Drawing.Size(86, 23);
@@ -396,7 +397,7 @@
             this.txtID2.Location = new System.Drawing.Point(2, 32);
             this.txtID2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtID2.Name = "txtID2";
-            this.txtID2.Size = new System.Drawing.Size(109, 20);
+            this.txtID2.Size = new System.Drawing.Size(108, 20);
             this.txtID2.TabIndex = 1;
             // 
             // txtID1
@@ -404,7 +405,7 @@
             this.txtID1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtID1.Location = new System.Drawing.Point(3, 3);
             this.txtID1.Name = "txtID1";
-            this.txtID1.Size = new System.Drawing.Size(107, 20);
+            this.txtID1.Size = new System.Drawing.Size(106, 20);
             this.txtID1.TabIndex = 0;
             this.toolTipQuetBia.SetToolTip(this.txtID1, "đâsd");
             // 
@@ -412,10 +413,10 @@
             // 
             this.btnQuetBia.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnQuetBia.Image = ((System.Drawing.Image)(resources.GetObject("btnQuetBia.Image")));
-            this.btnQuetBia.Location = new System.Drawing.Point(206, 3);
+            this.btnQuetBia.Location = new System.Drawing.Point(205, 3);
             this.btnQuetBia.Name = "btnQuetBia";
             this.tableLayoutPanel4.SetRowSpan(this.btnQuetBia, 2);
-            this.btnQuetBia.Size = new System.Drawing.Size(34, 50);
+            this.btnQuetBia.Size = new System.Drawing.Size(35, 50);
             this.btnQuetBia.TabIndex = 4;
             this.toolTipQuetBia.SetToolTip(this.btnQuetBia, "Kiểm tra ảnh bìa");
             this.btnQuetBia.UseVisualStyleBackColor = true;
@@ -428,10 +429,10 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this.tableLayoutPanel5.Controls.Add(this.cbNhanThongBao, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.cbMultiple, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.cbHienChrome, 1, 1);
             this.tableLayoutPanel5.Controls.Add(this.trModel, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.cbOpenLink, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.cbFixBia, 1, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(4, 62);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -458,7 +459,7 @@
             // cbMultiple
             // 
             this.cbMultiple.AutoSize = true;
-            this.cbMultiple.Location = new System.Drawing.Point(138, 3);
+            this.cbMultiple.Location = new System.Drawing.Point(777, 4);
             this.cbMultiple.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbMultiple.Name = "cbMultiple";
             this.cbMultiple.Size = new System.Drawing.Size(80, 17);
@@ -556,12 +557,23 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(859, 365);
             this.tableLayoutPanel1.TabIndex = 18;
             // 
+            // cbFixBia
+            // 
+            this.cbFixBia.AutoSize = true;
+            this.cbFixBia.Location = new System.Drawing.Point(139, 3);
+            this.cbFixBia.Name = "cbFixBia";
+            this.cbFixBia.Size = new System.Drawing.Size(76, 17);
+            this.cbFixBia.TabIndex = 20;
+            this.cbFixBia.Text = "Tự sửa bìa";
+            this.cbFixBia.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(859, 389);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.cbMultiple);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -628,6 +640,7 @@
         private System.Windows.Forms.TextBox txtID1;
         private System.Windows.Forms.Button btnQuetBia;
         private System.Windows.Forms.ToolTip toolTipQuetBia;
+        private System.Windows.Forms.CheckBox cbFixBia;
     }
 }
 

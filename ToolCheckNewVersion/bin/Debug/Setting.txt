@@ -4,3 +4,4 @@ KhongDaTab
 0
 KhongMoTrangSuaChuong
 KhongHienChrome
+FixBia

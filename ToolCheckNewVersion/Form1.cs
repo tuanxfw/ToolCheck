@@ -14,11 +14,16 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HtmlAgilityPack;
+using System.Web;
+
 
 namespace ToolCheckNewVersion
 {   
     public partial class MainForm : Form
     {
+        private static ChromeDriver chromeDriver;
+
         string CactruyenDangQuet="", TruyenDangQuet="", ChuongDangQuet="", LinkBia = "";
         string TienTrinhQuetBia = "Chưa chạy";
 
@@ -28,7 +33,6 @@ namespace ToolCheckNewVersion
         int TienTrinh = 1;
         int Model = 0;
         
-
         public MainForm()
         {
             InitializeComponent();
@@ -50,6 +54,7 @@ namespace ToolCheckNewVersion
                     trModel.Value = int.Parse(objReader.ReadLine());
                     if (objReader.ReadLine() == "MoTrangSuaChuong") { cbOpenLink.Checked = true; }
                     if (objReader.ReadLine() == "HienChrome") { cbHienChrome.Checked = true; }
+                    if (objReader.ReadLine() == "FixBia") { cbFixBia.Checked = true; }
                 }
                 while ((objReader.Peek() != -1));
                 objReader.Close();
@@ -104,13 +109,34 @@ namespace ToolCheckNewVersion
         {
             Int32 ID1 = Int32.Parse(txtID1.Text);
             Int32 ID2 = Int32.Parse(txtID2.Text);
-            CactruyenDangQuet = "Đang quét các truyện ID từ " + txtID1.Text + " đến " + txtID2.Text; //Trang thai
-            Status();
 
+            if(cbFixBia.Checked == true)
+            {
+                DangNhap();
+
+                CactruyenDangQuet = "Đang quét và fix bìa các truyện ID từ " + txtID1.Text + " đến " + txtID2.Text; //Trang thai
+                Status();
+            }
+            else
+            {
+                CactruyenDangQuet = "Đang quét bìa các truyện ID từ " + txtID1.Text + " đến " + txtID2.Text; //Trang thai
+                Status();
+            }
+          
             while (ID1 <= ID2)
             {
+                string TenTruyen = "", KetQua = "";
+
                 if (TienTrinhQuetBia == "Chưa chạy")
                 {
+                    try
+                    {
+                        chromeDriver.Close();
+                        chromeDriver.Quit();
+                    }
+                    catch
+                    { }
+
                     break;
                 }
 
@@ -139,15 +165,15 @@ namespace ToolCheckNewVersion
 
                 string htmlTruyen = httpClient.GetStringAsync("").Result;
 
+                var TrangTruyen = new HtmlAgilityPack.HtmlDocument();
+                TrangTruyen.LoadHtml(htmlTruyen);
+
                 try
                 {
-                    string AnhBia1 = @"<div class=""thumbnail"">(.*?)</div>";
-                    var Bia1 = Regex.Matches(htmlTruyen, AnhBia1, RegexOptions.Singleline);
+                    var MangaName = TrangTruyen.DocumentNode.SelectSingleNode(@"/html/head/title");
+                    TenTruyen = HttpUtility.HtmlDecode(MangaName.InnerHtml).Replace(" | BlogTruyen.Com", "").Trim();
 
-                    string AnhBia2 = @"""(.*?)""";
-                    var Bia2 = Regex.Matches(Bia1[0].ToString(), AnhBia2, RegexOptions.Singleline);
-
-                    LinkBia = Bia2[1].ToString().Replace(@"""", "");                   
+                    LinkBia = TrangTruyen.DocumentNode.SelectSingleNode(@"//div[@class=""thumbnail""]/img").GetAttributeValue("src","");              
                 }
                 catch
                 {
@@ -159,19 +185,102 @@ namespace ToolCheckNewVersion
                     try { LinkBia = LinkBia.Replace(@"///", @"//"); }
                     catch { }
 
-                    try
-                    {
-                        WebClient request = new WebClient();
-                        request.Headers.Set("Referer", @"https://blogtruyen.vn/" + ID1.ToString());
-                        request.DownloadFile(LinkBia, "Check.png");
-                    }
-                    catch
-                    {
-                        rtbKetQuaQuet.Text = rtbKetQuaQuet.Text + "[lỗi bìa] " + "https://blogtruyen.vn/admin/ManageManga/UpdateWithPermission/" + ID1.ToString() + "\n"; //Trường hợp muốn lấy link thay vì tên
 
-                        SoChuongDie++;
-                        txtCount.Text = "Số lượng truyện lỗi bìa: " + SoChuongDie; //Trang Thai
-                    }
+                    KetQua = TaiBia(@"https://blogtruyen.vn/" + ID1.ToString(), LinkBia);
+
+                    if(KetQua == "Thất bại")
+                    {
+                        if (cbFixBia.Checked == false)
+                        {
+                            rtbKetQuaQuet.Text = rtbKetQuaQuet.Text + "[lỗi bìa] " + "https://blogtruyen.vn/admin/ManageManga/UpdateWithPermission/" + ID1.ToString() + "\n"; //Trường hợp muốn lấy link thay vì tên
+
+                            SoChuongDie++;
+                            txtCount.Text = "Số lượng truyện lỗi bìa: " + SoChuongDie; //Trang Thai
+                        }
+                        else
+                        {
+                            try //Tìm kiếm truyện từ nettruyen
+                            {
+                                //Lấy bìa truyện mới từ nettruyen
+                                //HttpClient httpClient2 = new HttpClient();
+                                //httpClient2.BaseAddress = new Uri("http://www.nettruyen.com/tim-truyen?keyword=" + TenTruyen.Replace(" ", "+"));
+
+                                //string htmlDanhSachTruyen = httpClient2.GetStringAsync("").Result;
+
+                                chromeDriver.Url = "http://www.nettruyen.com/tim-truyen?keyword=" + TenTruyen.Replace(" ", "+");
+                                chromeDriver.Navigate();
+                                
+                                var NoiDung = new HtmlAgilityPack.HtmlDocument();
+                                NoiDung.LoadHtml(chromeDriver.PageSource);
+
+                                var TruyenTable = NoiDung.DocumentNode.SelectSingleNode(@"//div[@class=""items""]/div");
+                                var DanhSachTruyen = TruyenTable.SelectNodes(@"div/figure/div/a/img").ToList();
+
+                                string LinkBiaMoi = DanhSachTruyen[0].GetAttributeValue("src", "");
+
+                                KetQua = TaiBia(@"https://blogtruyen.vn/" + ID1.ToString(), LinkBiaMoi);
+
+                                //Kiểm tra bìa xem có tải được không, thất bại thì báo lỗi, nếu thành công thì upload bìa mới
+                                if (KetQua == "Thất bại")
+                                {
+                                    rtbKetQuaQuet.Text = rtbKetQuaQuet.Text + "[lỗi bìa] " + "https://blogtruyen.vn/admin/ManageManga/UpdateWithPermission/" + ID1.ToString() + "\n"; //Trường hợp muốn lấy link thay vì tên
+
+                                    SoChuongDie++;
+                                    txtCount.Text = "Số lượng truyện lỗi bìa: " + SoChuongDie; //Trang Thai
+                                }
+                                else
+                                {
+                                    var fileinfo = new FileInfo(".\\BiaTruyen.jpg");
+                                    string FilePath = fileinfo.FullName.Replace("\\", "/");
+
+                                    chromeDriver.Url = "https://blogtruyen.vn/admin/ManageManga/UpdateWithPermission/" + ID1.ToString();
+                                    chromeDriver.Navigate();
+
+                                    var Process = chromeDriver.FindElementById("progress");
+
+                                    var InputFile = chromeDriver.FindElementById("mangaThumbnailFileupload");
+                                    InputFile.SendKeys(FilePath);
+
+                                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                                    int i = 0;
+                                    while (i >= 0)
+                                    {
+                                        if (Process.GetAttribute("style") == "margin-top: 10px; display: none;" || i >= 60)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                                        }
+
+                                        i++;
+                                    }
+
+                                    if( i < 60)
+                                    {
+                                        var CapNhatTruyen = chromeDriver.FindElementByClassName("btnUpdateEditor");
+                                        CapNhatTruyen.Click();
+                                    }
+                                    else
+                                    {
+                                        rtbKetQuaQuet.Text = rtbKetQuaQuet.Text + "[lỗi bìa] " + "https://blogtruyen.vn/admin/ManageManga/UpdateWithPermission/" + ID1.ToString() + "\n"; //Trường hợp muốn lấy link thay vì tên
+
+                                        SoChuongDie++;
+                                        txtCount.Text = "Số lượng truyện lỗi bìa: " + SoChuongDie;
+                                    }                                
+                                }
+                            }
+                            catch //Nếu không tìm thấy kết quả thì báo lỗi
+                            {
+                                rtbKetQuaQuet.Text = rtbKetQuaQuet.Text + "[lỗi bìa] " + "https://blogtruyen.vn/admin/ManageManga/UpdateWithPermission/" + ID1.ToString() + "\n"; //Trường hợp muốn lấy link thay vì tên
+
+                                SoChuongDie++;
+                                txtCount.Text = "Số lượng truyện lỗi bìa: " + SoChuongDie; //Trang Thai
+                            }
+                            
+                        }
+                    }                 
                 }
                 
 
@@ -180,6 +289,43 @@ namespace ToolCheckNewVersion
 
                 System.GC.Collect();
             }
+
+            try
+            {
+                chromeDriver.Close();
+                chromeDriver.Quit();
+            }
+            catch
+            { }
+        }
+
+        string TaiBia(string LinkTrang, string LinkAnh)
+        {
+            //File.Delete(".\\BiaTruyen.jpg");
+            string KetQua = "";
+
+            WebClient request = new WebClient();
+
+            try
+            {
+                try
+                {
+                    request.DownloadFile(LinkAnh, "BiaTruyen.jpg");
+                    KetQua = "Thành công";
+                }
+                catch
+                {
+                    request.Headers.Set("Referer", LinkTrang);
+                    request.DownloadFile(LinkAnh, "BiaTruyen.jpg");
+                    KetQua = "Thành công";
+                }
+            }
+            catch
+            {
+                KetQua = "Thất bại";
+            }
+            
+            return KetQua;
         }
 
         void LayIDChuong(string LinkChuong)
@@ -233,7 +379,7 @@ namespace ToolCheckNewVersion
         }
 
         void GiaiPhongBoNho()
-        {
+        {          
             if(cbMultiple.Checked == false)
             {
                 try
@@ -535,19 +681,19 @@ namespace ToolCheckNewVersion
             //chromeDriver.Close(); //Cách 2
         }
 
-        void CapNhatTuDong()
+        void DangNhap()
         {
             ChromeDriverService service = ChromeDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true; //ẩn cửa sổ command
 
             ChromeOptions options = new ChromeOptions();
-            
-            if(cbHienChrome.Checked != true)
+
+            if (cbHienChrome.Checked != true)
             {
                 options.AddArgument("headless"); //ẩn cửa sổ chrome
             }
 
-            ChromeDriver chromeDriver = new ChromeDriver(service, options);
+            chromeDriver = new ChromeDriver(service, options);
             //ChromeDriver chromeDriver = new ChromeDriver();
 
 
@@ -562,6 +708,11 @@ namespace ToolCheckNewVersion
 
             var dangnhap = chromeDriver.FindElementByClassName("btn-raised");
             dangnhap.Click();
+        }
+
+        void CapNhatTuDong()
+        {
+            DangNhap();
 
             int i = 1;
             int sum = ListLink.Items.Count;
@@ -934,6 +1085,9 @@ namespace ToolCheckNewVersion
 
                 if (cbHienChrome.Checked == true) { sw.WriteLine("HienChrome"); }
                 else { sw.WriteLine("KhongHienChrome"); }
+
+                if (cbFixBia.Checked == true) { sw.WriteLine("FixBia"); }
+                else { sw.WriteLine("KhongFixBia"); }
             }
 
             if (cbGhiNho.Checked == true)
